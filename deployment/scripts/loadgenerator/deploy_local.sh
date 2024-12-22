@@ -18,10 +18,10 @@ cd ${CLONE_DIR}/${FILEPATH}
 EXTERNAL_IP=$(kubectl get svc frontend-external -n default -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 # Build the load generator Docker image, passing the external IP address as a build argument
-docker build --build-arg FRONTEND_ADDR=${EXTERNAL_IP} -t loadgenerator .
+docker build -t loadgenerator .
 
 # Run the load generator Docker container
-docker run -d --name loadgenerator -p 8089:8089 loadgenerator
+docker run -d --name loadgenerator -p 8089:8089 -e FRONTEND_ADDR=${EXTERNAL_IP} loadgenerator
 
 # Clean up
 rm -rf ${CLONE_DIR}
