@@ -15,7 +15,7 @@ NAMESPACE="default"
 FILEPATH_MANIFEST="kustomize/"
 
 # Change to the terraform directory
-cd deployment/terraform
+cd deployment/terraform/gke
 
 # Retrieve the cluster name and zone from Terraform outputs
 CLUSTER_NAME=$(terraform output -raw cluster_name)
@@ -31,6 +31,9 @@ fi
 
 # Change to the kustomize directory
 cd ${CLONE_DIR}/${FILEPATH_MANIFEST}
+
+# Deploy without the load generator
+kustomize edit add component components/without-loadgenerator
 
 # Apply the Kubernetes manifests
 kubectl apply -k . -n ${NAMESPACE}
