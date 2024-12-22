@@ -1,0 +1,58 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+
+- name: Start Docker service
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Install pip
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install Docker SDK for Python
+  pip:
+    name: docker
+    state: present
+
+- name: Create load generator directory
+  file:
+    path: /loadgenerator
+    state: directory
+
+- name: Copy Dockerfile to VM
+  copy:
+    src: Dockerfile
+    dest: /loadgenerator/Dockerfile
+
+- name: Copy requirements.txt to VM
+  copy:
+    src: requirements.txt
+    dest: /loadgenerator/requirements.txt
+
+- name: Copy locustfile.py to VM
+  copy:
+    src: locustfile.py
+    dest: /loadgenerator/locustfile.py
+
+- name: Build Load Generator Docker image
+  command: docker build -t loadgenerator /loadgenerator
+
+- name: Run Load Generator Docker container
+  docker_container:
+    name: loadgenerator
+    image: loadgenerator
+    state: started
+    ports:
+      - "8089:8089"
+    env:
+      FRONTEND_ADDR: "{{ frontend_ip }}"

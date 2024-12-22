@@ -11,7 +11,7 @@ fi
 PROJECT_ID="$1"
 
 # Change to the terraform directory
-cd deployment/terraform
+cd deployment/terraform/gke
 
 # Initialize Terraform
 terraform init
