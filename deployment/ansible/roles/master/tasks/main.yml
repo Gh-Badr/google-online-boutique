@@ -1,0 +1,12 @@
+---
+- name: Run Load Generator Docker container (Master)
+  docker_container:
+    name: loadgenerator-master
+    image: loadgenerator
+    state: started
+    ports:
+      - "8089:8089"
+      - "5557:5557"
+    env:
+      LOCUST_MODE: "master"
+      FRONTEND_ADDR: "{{ frontend_ip }}"

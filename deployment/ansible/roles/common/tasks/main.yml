@@ -46,13 +46,3 @@
 
 - name: Build Load Generator Docker image
   command: docker build -t loadgenerator /loadgenerator
-
-- name: Run Load Generator Docker container
-  docker_container:
-    name: loadgenerator
-    image: loadgenerator
-    state: started
-    ports:
-      - "8089:8089"
-    env:
-      FRONTEND_ADDR: "{{ frontend_ip }}"
