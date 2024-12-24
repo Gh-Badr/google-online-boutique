@@ -1,6 +1,11 @@
-output "loadgenerator_vm_ip" {
-  description = "The external IP address of the load generator VM"
-  value       = google_compute_instance.loadgenerator.network_interface[0].access_config[0].nat_ip
+output "locust_master_ips" {
+  description = "The external IP addresses of the Locust master VMs"
+  value       = [for instance in google_compute_instance.locust_master : instance.network_interface[0].access_config[0].nat_ip]
+}
+
+output "locust_worker_ips" {
+  description = "The external IP addresses of the Locust worker VMs"
+  value       = [for instance in google_compute_instance.locust_worker : instance.network_interface[0].access_config[0].nat_ip]
 }
 
 output "private_key" {
