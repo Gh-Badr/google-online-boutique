@@ -51,14 +51,20 @@ variable "subnetwork" {
   default     = "default"
 }
 
-variable "tags" {
-  type        = list(string)
-  description = "Tags for the VM instance"
-  default     = ["loadgenerator"]
-}
-
 variable "username" {
   type        = string
   description = "Username for the VM instance"
   default    = "root"
+}
+
+variable "num_masters" {
+  type        = number
+  description = "Number of Locust master instances"
+  default     = 1
+}
+
+variable "num_workers" {
+  type        = number
+  description = "Number of Locust worker instances"
+  default     = 3
 }

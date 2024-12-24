@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Changes made by Gh-Badr:
+# - Updated ENTRYPOINT to handle both master and worker modes based on environment variables.
+# - Removed --headless option to enable the UI for the master.
+
 FROM python:3.12.6-slim@sha256:ad48727987b259854d52241fac3bc633574364867b8e20aec305e6e7f4028b26 AS base
 
 FROM base AS builder
@@ -32,4 +36,4 @@ COPY locustfile.py .
 # enable gevent support in debugger
 ENV GEVENT_SUPPORT=True
 
-ENTRYPOINT locust --host="http://${FRONTEND_ADDR}" --headless -u "${USERS:-10}" -r "${RATE:-1}" 2>&1
+ENTRYPOINT ["/bin/sh", "-c", "if [ \"$LOCUST_MODE\" = \"master\" ]; then locust --master --host=\"http://${FRONTEND_ADDR}\" -u \"${USERS:-10}\" -r \"${RATE:-1}\"; else locust --worker --master-host=\"$LOCUST_MASTER\"; fi"]

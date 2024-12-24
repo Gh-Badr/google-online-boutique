@@ -1,0 +1,6 @@
+---
+- name: Worker Configuration
+  hosts: locust_workers
+  become: yes
+  roles:
+    - worker

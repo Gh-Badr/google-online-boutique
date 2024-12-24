@@ -1,0 +1,9 @@
+---
+- name: Run Load Generator Docker container (Worker)
+  docker_container:
+    name: loadgenerator-worker
+    image: loadgenerator
+    state: started
+    env:
+      LOCUST_MODE: "worker"
+      LOCUST_MASTER: "{{ groups['locust_master'][0] }}"

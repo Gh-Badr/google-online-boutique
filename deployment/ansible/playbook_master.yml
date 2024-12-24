@@ -1,0 +1,6 @@
+---
+- name: Master Configuration
+  hosts: locust_master
+  become: yes
+  roles:
+    - master
