@@ -63,7 +63,7 @@ resource "google_compute_firewall" "allow_locust" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8089", "5557"]
+    ports    = ["8089", "5557", "9646"]
   }
 
   target_tags = ["locust-master"]
