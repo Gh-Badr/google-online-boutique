@@ -10,3 +10,10 @@
     env:
       LOCUST_MODE: "master"
       FRONTEND_ADDR: "{{ frontend_ip }}"
+
+- name: Run Locust Exporter Docker container
+  docker_container:
+    name: locust-exporter
+    image: containersol/locust_exporter:latest
+    state: started
+    network_mode: host

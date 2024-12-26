@@ -2,6 +2,26 @@ grafana:
   service:
     type: LoadBalancer
 
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      locust-dashboard:
+        gnetId: 11985
+        datasource: prometheus
+        revision: 3
+
 prometheus:
     service:
       type: LoadBalancer
